@@ -1,0 +1,95 @@
+{
+  "actorSpecification": 1,
+  "name": "goo-net-car-scraper",
+  "title": "Goo-net Japan Used Cars — Nationwide Inventory",
+  "version": "0.1",
+  "buildTag": "latest",
+  "dockerfile": "./Dockerfile",
+  "readme": "./README.md",
+  "input": "./INPUT_SCHEMA.json",
+  "outputSchema": {
+    "actorOutputSchemaVersion": 1,
+    "title": "Goo-net Used Cars",
+    "description": "Used car listings from goo-net.com (Japan)",
+    "type": "object",
+    "properties": {
+      "itemId": {
+        "title": "Item ID",
+        "type": "string",
+        "description": "Stock ID at goo-net",
+        "template": "{{itemId}}"
+      },
+      "title": {
+        "title": "Title",
+        "type": "string",
+        "description": "Car model name",
+        "template": "{{title}}"
+      },
+      "maker": {
+        "title": "Maker",
+        "type": "string",
+        "description": "Car maker (Toyota, Honda, etc.)",
+        "template": "{{maker}}"
+      },
+      "price": {
+        "title": "Price (JPY)",
+        "type": "string",
+        "description": "Total price in yen",
+        "template": "{{price}}"
+      },
+      "currency": {
+        "title": "Currency",
+        "type": "string",
+        "description": "JPY",
+        "template": "{{currency}}"
+      },
+      "imageUrl": {
+        "title": "Image URL",
+        "type": "string",
+        "description": "Car image URL",
+        "template": "{{imageUrl}}"
+      },
+      "detailUrl": {
+        "title": "Detail URL",
+        "type": "string",
+        "description": "Listing page URL",
+        "template": "{{detailUrl}}"
+      },
+      "year": {
+        "title": "Year",
+        "type": "string",
+        "description": "Model year",
+        "template": "{{year}}"
+      },
+      "mileage": {
+        "title": "Mileage",
+        "type": "string",
+        "description": "Mileage in km",
+        "template": "{{mileage}}"
+      },
+      "shop": {
+        "title": "Shop",
+        "type": "string",
+        "description": "Dealer shop name",
+        "template": "{{shop}}"
+      },
+      "source": {
+        "title": "Source",
+        "type": "string",
+        "description": "goo-net",
+        "template": "{{source}}"
+      },
+      "scrapedAt": {
+        "title": "Scraped At",
+        "type": "string",
+        "description": "Scrape timestamp",
+        "template": "{{scrapedAt}}"
+      }
+    },
+    "required": [
+      "itemId",
+      "title",
+      "price"
+    ]
+  }
+}

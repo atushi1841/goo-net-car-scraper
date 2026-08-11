@@ -1,0 +1,47 @@
+{
+  "title": "Goo-net Japan Used Cars Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchKeyword": {
+      "title": "検索キーワード",
+      "type": "string",
+      "description": "車種名・ブランド名を指定（例: ハイエース, アクア）。空欄で全車種スキャン",
+      "prefill": "",
+      "editor": "textfield"
+    },
+    "prefecture": {
+      "title": "都道府県コード",
+      "type": "string",
+      "description": "pref-01(北海道)〜pref-47(沖縄)。空欄で全国",
+      "prefill": "",
+      "editor": "textfield"
+    },
+    "maxItems": {
+      "title": "最大取得件数",
+      "type": "integer",
+      "description": "取得する最大台数",
+      "default": 100,
+      "minimum": 1,
+      "editor": "number"
+    },
+    "maxPages": {
+      "title": "最大ページ数",
+      "type": "integer",
+      "description": "巡回する最大ページ数",
+      "default": 5,
+      "minimum": 1,
+      "editor": "number"
+    },
+    "proxyConfiguration": {
+      "title": "Proxy設定",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Apifyプロキシ設定（自動）",
+      "default": {
+        "useApifyProxy": true
+      }
+    }
+  },
+  "required": []
+}
