@@ -19,6 +19,10 @@ async def run(actor_input, actor):
     max_items = int(actor_input.get("maxItems", 100))
     max_pages = int(actor_input.get("maxPages", 5))
 
+    BODY_TYPES = ["BUS", "COMPACT", "COUPE", "KEI", "KEITRUCK", "MINIVAN", "OPEN", "SEDAN", "SUV", "WAGON"]
+    body_type_raw = actor_input.get("bodyType") or ""
+    body_type = body_type_raw.strip().upper()
+
     proxy_url = None
     if actor is not None:
         proxy_config = await Actor.create_proxy_configuration(
@@ -37,7 +41,9 @@ async def run(actor_input, actor):
     }
 
     normal_base = "https://www.goo-net.com/usedcar/"
-    if prefecture is not None:
+    if body_type in BODY_TYPES:
+        normal_base = f"https://www.goo-net.com/usedcar/bodytype-{body_type}/"
+    elif prefecture is not None:
         try:
             pref_code = str(int(prefecture)).zfill(2)
             normal_base = f"https://www.goo-net.com/usedcar/pref-{pref_code}/"

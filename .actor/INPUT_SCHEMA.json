@@ -17,6 +17,13 @@
       "prefill": "",
       "editor": "textfield"
     },
+    "bodyType": {
+      "title": "車体タイプ",
+      "type": "string",
+      "description": "SUV, SEDAN, MINIVAN, KEI, WAGON, COUPE, COMPACT, OPEN, BUS, KEITRUCK のいずれか。空欄=全車種",
+      "prefill": "",
+      "editor": "textfield"
+    },
     "maxItems": {
       "title": "最大取得件数",
       "type": "integer",
