@@ -23,6 +23,8 @@ Scrape used car listings from **[goo-net.com](https://www.goo-net.com/)** — on
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `searchKeyword` | string | empty | Car model / brand keyword (e.g. `ハイエース`, `アクア`). Empty = full scan |
+| `statsMode` | boolean | false | true = return aggregated price stats instead of listings |
+| `statsKeyword` | string | empty | Model name to aggregate (e.g. `N-BOX`, `ハイエース`) |
 | `prefecture` | string | empty | Prefecture code `01`–`47`. Empty = all Japan |
 | `maxItems` | integer | 100 | Maximum number of listings to collect |
 | `maxPages` | integer | 5 | Maximum number of pages to crawl |
@@ -50,6 +52,37 @@ Example:
 - 🚗 Used car exporters & importers (inventory tracking, pricing research)
 - 📊 Market researchers (JDM market trends, price analysis)
 - 🔍 JDM enthusiasts hunting specific models
+
+## Price Stats API Mode (相場統計API)
+
+Same Actor doubles as a **price stats API** for market research — returns aggregated price statistics for a car model without downloading the full listing data.
+
+**Request** (Apify synchronous API):
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/bgm5Gxn4BeBmoO7xD/run-sync-get-dataset-items?token=YOUR_TOKEN&timeout=120" \
+  -H "Content-Type: application/json" \
+  -d '{"statsMode": true, "statsKeyword": "N-BOX", "maxItems": 30, "maxPages": 1}'
+```
+
+**Response** (JSON):
+
+```json
+{
+  "statsType": "goo-net-car-price",
+  "keyword": "N-BOX",
+  "count": 5,
+  "priceMin": 230000,
+  "priceMax": 1907000,
+  "priceAvg": 974400,
+  "priceMedian": 596000,
+  "sampleItems": [{"title": "...", "price": 230000, "detailUrl": "...", "shop": "..."}]
+}
+```
+
+- `statsKeyword`: model name (e.g. `N-BOX`, `ハイエース`). Full-width/half-width matching handled automatically
+- Combine with `bodyType` to narrow (e.g. `KEI`, `SUV`)
+- Use cases: market research, dealer pricing benchmarks, export valuation
 
 ## Pricing
 
