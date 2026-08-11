@@ -24,6 +24,20 @@
       "prefill": "",
       "editor": "textfield"
     },
+    "statsMode": {
+      "title": "相場集計モード",
+      "type": "boolean",
+      "description": "trueでキーワード別の価格相場統計のみを返す（検索+集計APIモード）",
+      "default": false,
+      "editor": "checkbox"
+    },
+    "statsKeyword": {
+      "title": "集計キーワード",
+      "type": "string",
+      "description": "モデル名（例: N-BOX, ハイエース）。このキーワードを含む車両のみを集計",
+      "prefill": "",
+      "editor": "textfield"
+    },
     "maxItems": {
       "title": "最大取得件数",
       "type": "integer",
