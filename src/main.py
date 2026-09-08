@@ -12,7 +12,7 @@ try:
 except Exception:
     Actor = None
 
-from goonet import fetch_page, parse_page, list_page
+from goonet import fetch_page, parse_page, list_page, CGI_BASE
 
 def _norm_key(text):
     t = unicodedata.normalize("NFKC", text or "")
@@ -62,7 +62,7 @@ async def run(actor_input, actor):
     keyword_url = None
     if search_keyword:
         encoded = urllib.parse.quote(search_keyword)
-        keyword_url = f"https://www.goo-net.com/usedcar/search/?keyword={encoded}"
+        keyword_url = f"{CGI_BASE}?category=USDN&query={encoded}"
 
     base_url = keyword_url if keyword_url else normal_base
 
@@ -75,11 +75,12 @@ async def run(actor_input, actor):
                 break
             url = list_page(base_url, page)
             html = await fetch_page(client, url)
-            if html is None and keyword_url and page == 1:
-                base_url = normal_base
-                url = list_page(base_url, page)
-                html = await fetch_page(client, url)
             if html is None:
+                if keyword_url and page == 1:
+                    raise RuntimeError(
+                        f"keyword search が失敗しました (searchKeyword={search_keyword!r}): "
+                        f"goo-net の検索CGIが応答を返しませんでした。"
+                    )
                 break
             items = parse_page(html)
             if not items:
@@ -122,17 +123,20 @@ async def run(actor_input, actor):
                     continue
 
         count = len(prices)
-        price_min = min(prices) if count else None
-        price_max = max(prices) if count else None
-        price_avg = int(sum(prices) / count) if count else None
-        if count:
+
+        insufficient_sample = False
+        if count < 20:
+            insufficient_sample = True
+            price_min = price_max = price_avg = price_median = None
+        else:
+            price_min = min(prices)
+            price_max = max(prices)
+            price_avg = int(sum(prices) / count)
             sp = sorted(prices)
             if count % 2 == 1:
                 price_median = sp[count // 2]
             else:
                 price_median = (sp[count // 2 - 1] + sp[count // 2]) // 2
-        else:
-            price_median = None
 
         sample_items = []
         for item in filtered[:3]:
@@ -148,6 +152,12 @@ async def run(actor_input, actor):
             "statsType": "goo-net-car-price",
             "keyword": keyword,
             "count": count,
+            "insufficientSample": insufficient_sample,
+            "notice": (
+                f"サンプルが少なすぎます（{count}台 / 最低20台）: キーワードを短くするか、"
+                "検索語を見直してください。"
+                if insufficient_sample else None
+            ),
             "priceMin": price_min,
             "priceMax": price_max,
             "priceAvg": price_avg,

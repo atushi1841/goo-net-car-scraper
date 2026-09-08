@@ -1,1 +1,6 @@
 .aider*
+__pycache__/
+*.pyc
+.verify/
+rapidapi_auth.json
+rapidapi_auth.json.bak
