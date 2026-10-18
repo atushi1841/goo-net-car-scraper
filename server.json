@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.atushi1841/japan-car-market-mcp",
+  "description": "Used car listings from goo-net.com (Japan's largest portal): prices, maker, body type, dealer. Live data via Apify actor. Apify apify.com/fruitful_quintessence Gumroad atushi5.gumroad.com/l/kutuxe",
+  "repository": {
+    "url": "https://github.com/atushi1841/goo-net-car-scraper",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/atushi1841/goo-net-car-scraper/releases/download/v1.0.0/server.mcpb",
+      "version": "1.0.0",
+      "fileSha256": "PENDING",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
