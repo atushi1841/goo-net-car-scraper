@@ -12,7 +12,7 @@
             "registryType": "mcpb",
             "identifier": "https://github.com/atushi1841/goo-net-car-scraper/releases/download/v1.0.0/server.mcpb",
             "version": "1.0.0",
-            "fileSha256": "d2fb504c92cd8652eeb2334cb21c45274ba889d685daefcdb7779bcb857e9da7",
+            "fileSha256": "PENDING",
             "transport": {
                 "type": "stdio"
             }
