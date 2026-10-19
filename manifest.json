@@ -1,81 +1,16 @@
 {
   "manifest_version": "0.4",
   "name": "japan-car-market-mcp",
-  "display_name": "Japan Used Car Market MCP - Goo-net Inventory & Pricing",
+  "display_name": "Japan Used Car Market MCP",
   "version": "1.0.0",
-  "description": "Used car listings from goo-net.com (Japan's largest portal): prices, maker, body type, dealer. Live data via Apify actor. Apify apify.com/fruitful_quintessence Gumroad atushi5.gumroad.com/l/kutuxe",
-  "long_description": "MCP server wrapping the goo-net-car-scraper Apify actor. Exposes a single tool 'used_car_search' for AI agents. The server returns Apify actor execution results with structured data. For direct API access, use the Apify actor at https://apify.com/fruitful_quintessence/goo-net-car-scraper.",
+  "description": "Used car listings from goo-net.com. Live data via Apify actor. Live data via Apify actor (fruitful_quintessence/goo-net-car-scraper). Gumroad: https://atushi5.gumroad.com/l/kutuxe",
   "author": {
     "name": "Kensho Project",
-    "email": "atushi1841@gmail.com",
-    "url": "https://github.com/atushi1841"
+    "email": "atushi1841@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/atushi1841/goo-net-car-scraper"
   },
-  "homepage": "https://github.com/atushi1841/goo-net-car-scraper",
-  "documentation": "https://github.com/atushi1841/goo-net-car-scraper",
-  "support": "https://github.com/atushi1841/goo-net-car-scraper/issues",
-  "server": {
-    "type": "python",
-    "entry_point": "src/stdio_main.py",
-    "mcp_config": {
-      "command": "python3",
-      "args": [
-        "src/stdio_main.py"
-      ]
-    }
-  },
-  "compatibility": {
-    "platforms": [
-      "darwin",
-      "linux",
-      "win32"
-    ],
-    "runtimes": {
-      "python": ">=3.10"
-    }
-  },
-  "keywords": [
-    "japan",
-    "used-car",
-    "goo-net",
-    "vehicle",
-    "automotive",
-    "price",
-    "mcp"
-  ],
-  "license": "MIT",
-  "privacy_policies": [],
-  "tools": [
-    {
-      "name": "used_car_search",
-      "description": "Search used car listings on goo-net.com by keyword, body type, or prefecture. Returns price, maker, model, year, mileage, and dealer info.",
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "searchKeyword": {
-            "type": "string",
-            "description": "Vehicle keyword (e.g. 'Civic', 'RAV4')"
-          },
-          "bodyType": {
-            "type": "string",
-            "description": "Body type: SEDAN, WAGON, SUV, KEI, etc."
-          },
-          "prefecture": {
-            "type": "integer",
-            "description": "Prefecture code (1-47)"
-          },
-          "maxItems": {
-            "type": "integer",
-            "description": "Max results (default 100)"
-          }
-        },
-        "required": [
-          "searchKeyword"
-        ]
-      }
-    }
-  ]
+  "homepage": "https://github.com/atushi1841/goo-net-car-scraper"
 }
