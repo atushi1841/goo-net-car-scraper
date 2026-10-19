@@ -1,130 +1,63 @@
 #!/usr/bin/env python3
-"""MCP stdio server for japan-car-market-mcp.
-
-Wraps the goo-net-car-scraper Apify actor. Returns actor execution results
-or structured Apify links for direct API use.
-"""
+"""MCP stdio server for io.github.atushi1841/japan-car-market-mcp."""
 import json
 import sys
-import urllib.request
 
 ACTOR_URL = "https://apify.com/fruitful_quintessence/goo-net-car-scraper"
 GUMROAD_URL = "https://atushi5.gumroad.com/l/kutuxe"
 
-SERVER_INFO = {
-    "name": "japan-car-market-mcp",
-    "version": "1.0.0",
-}
-
+SERVER_INFO = {"name": "io.github.atushi1841/japan-car-market-mcp", "version": "1.0.0"}
 TOOLS = [{
-    "name": "used_car_search",
-    "description": """Search used car listings on goo-net.com by keyword, body type, or prefecture. Returns price, maker, model, year, mileage, and dealer info.""",
-    "inputSchema": {
-        "type": "object",
-        "properties": {
-        "searchKeyword": {
-                "type": "string",
-                "description": "Vehicle keyword (e.g. 'Civic', 'RAV4')"
-        },
-        "bodyType": {
-                "type": "string",
-                "description": "Body type: SEDAN, WAGON, SUV, KEI, etc."
-        },
-        "prefecture": {
-                "type": "integer",
-                "description": "Prefecture code (1-47)"
-        },
-        "maxItems": {
-                "type": "integer",
-                "description": "Max results (default 100)"
-        }
-},
-        "required": ["searchKeyword"]
-    }
+    "name": "japan_car_market_mcp_search",
+    "description": "Used car listings from goo-net.com. Live data via Apify actor.",
+    "inputSchema": {"type": "object", "properties": {}}
 }]
 
 
-def send_result(result):
-    msg = json.dumps(result, ensure_ascii=False)
-    header = f"Content-Length: {len(msg.encode())}\r\n\r\n"
-    sys.stdout.write(header + msg)
-    sys.stdout.flush()
-
-
-def handle_request(request):
-    method = request.get("method", "")
-    params = request.get("params", {})
-    req_id = request.get("id")
-
-    if method == "initialize":
-        return {
-            "protocolVersion": "2024-11-05",
-            "capabilities": {"tools": {}},
-            "serverInfo": SERVER_INFO
-        }
-
-    if method == "tools/list":
-        return {"tools": TOOLS}
-
-    if method == "tools/call":
-        tool_name = params.get("name", "")
-        args = params.get("arguments", {})
-        if tool_name == "used_car_search":
-            return {
-                "content": [{
-                    "type": "text",
-                    "text": (
-                        f"Apify actor: {ACTOR_URL}\n"
-                        f"Query params: {json.dumps(args, ensure_ascii=False)}\n"
-                        f"Gumroad datasets: {GUMROAD_URL}\n"
-                        f"\nRun via Apify API: curl -X POST "
-                        f"{ACTOR_URL}/runs -H 'Authorization: Bearer $APIFY_TOKEN' "
-                        f"-H 'Content-Type: application/json' "
-                        f"-d '{json.dumps(args)}'"
-                    )
-                }]
-            }
-        return {"content": [{"type": "text", "text": f"Unknown tool: {tool_name}"}]}
-
-    if method == "notifications/initialized":
-        return None
-
-    return {}
+def send_msg(obj):
+    msg = json.dumps(obj, ensure_ascii=False)
+    header = f"Content-Length: {len(msg.encode())}\\r\\n\\r\\n"
+    sys.stdout.buffer.write((header + msg).encode())
+    sys.stdout.buffer.flush()
 
 
 def main():
-    buffer = b""
+    buf = b""
     while True:
         data = sys.stdin.buffer.read(4096)
-        if not data:
-            break
-        buffer += data
-        # Parse JSON-RPC messages
-        while b"{" in buffer:
-            start = buffer.find(b"{")
+        if not data: break
+        buf += data
+        while b"{" in buf:
+            start = buf.find(b"{")
             depth = 0
             end = -1
-            for i in range(start, len(buffer)):
-                if buffer[i:i+1] == b"{":
+            for i in range(start, len(buf)):
+                if buf[i:i+1] == b"{":
                     depth += 1
-                elif buffer[i:i+1] == b"}" :
+                elif buf[i:i+1] == b"}":
                     depth -= 1
                     if depth == 0:
                         end = i + 1
                         break
             if end > 0:
-                raw = buffer[start:end]
-                buffer = buffer[end:]
+                raw = buf[start:end]
+                buf = buf[end:]
                 try:
-                    request = json.loads(raw)
-                    response = handle_request(request)
-                    if response is not None and "id" in request:
-                        result = {"jsonrpc": "2.0", "id": request["id"], "result": response}
-                        msg = json.dumps(result, ensure_ascii=False)
-                        header = f"Content-Length: {len(msg.encode())}\r\n\r\n"
-                        sys.stdout.buffer.write(header.encode() + msg.encode())
-                        sys.stdout.buffer.flush()
-                except Exception as e:
+                    req = json.loads(raw)
+                    m = req.get("method", "")
+                    resp = {}
+                    if m == "initialize":
+                        resp = {"protocolVersion": "2024-11-05", "capabilities": {"tools": {}}, "serverInfo": SERVER_INFO}
+                    elif m == "tools/list":
+                        resp = {"tools": TOOLS}
+                    elif m == "tools/call":
+                        tname = req["params"].get("name", "")
+                        args = req["params"].get("arguments", {})
+                        if tname == "japan_car_market_mcp_search":
+                            resp = {"content": [{"type": "text", "text": f"Apify actor: {ACTOR_URL}\\nArguments: {json.dumps(args, ensure_ascii=False)}\\nGumroad: {GUMROAD_URL}"}]}
+                    if "id" in req and resp:
+                        send_msg({"jsonrpc": "2.0", "id": req["id"], "result": resp})
+                except Exception:
                     pass
             else:
                 break
