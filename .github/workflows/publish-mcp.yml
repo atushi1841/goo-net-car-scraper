@@ -1,6 +1,5 @@
 name: Publish to MCP Registry
-
-"on":
+on:
   workflow_dispatch:
     inputs:
       publish:
