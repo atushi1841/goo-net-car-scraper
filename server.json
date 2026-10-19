@@ -1,6 +1,6 @@
 {
     "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-    "name": "io.github.atushi1841/atushi1841/japan-car-market-mcp",
+    "name": "io.github.atushi1841/japan-car-market-mcp",
     "description": "Japan used car prices from goo-net.com via Apify + Gumroad",
     "repository": {
         "url": "https://github.com/atushi1841/goo-net-car-scraper",
@@ -12,7 +12,7 @@
             "registryType": "mcpb",
             "identifier": "https://github.com/atushi1841/goo-net-car-scraper/releases/download/v1.0.0/server.mcpb",
             "version": "1.0.0",
-            "fileSha256": "2fd31e9ac308e6b168e15b0ca80eb7ebca1c1324de5976bcbb403695ccc730d2",
+            "fileSha256": "PENDING",
             "transport": {
                 "type": "stdio"
             }
