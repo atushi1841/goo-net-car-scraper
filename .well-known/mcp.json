@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "japan-car-market-mcp": {
+      "name": "Japan Used Car Market MCP",
+      "type": "stdio",
+      "description": "MCP server wrapping goo-net-car-scraper Apify actor.",
+      "command": "python3",
+      "args": [
+        "src/stdio_main.py"
+      ],
+      "repo": "https://github.com/atushi1841/goo-net-car-scraper"
+    }
+  }
+}
