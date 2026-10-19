@@ -112,3 +112,13 @@ Install via MCP: add to your MCP config:
 ```json
 {"mcpServers": {"japan-car-market-mcp": {"command": "python3", "args": ["src/stdio_main.py"]}}}
 ```
+
+## Smithery
+
+[![Smithery](https://smithery.ai/server/atushi1841/japan-car-market-mcp/badge)](https://smithery.ai/server/atushi1841/japan-car-market-mcp)
+
+Install via Smithery:
+
+```bash
+npx @smithery/cli install atushi1841/japan-car-market-mcp --client claude
+```
