@@ -99,3 +99,16 @@ Pay per result: **$0.002 per item** ($2 per 1,000 listings).
 - Python 3.11 + httpx + BeautifulSoup
 - Apify Actor SDK v3
 - EUC-JP decode support
+
+## MCP Server & Registry
+
+This scraper is also available as an MCP server for AI agents:
+
+- **MCP Registry**: `io.github.atushi1841/japan-car-market-mcp`
+- **Apify Store**: https://apify.com/fruitful_quintessence/goo-net-car-scraper
+- **Gumroad**: https://atushi5.gumroad.com/l/kutuxe
+
+Install via MCP: add to your MCP config:
+```json
+{"mcpServers": {"japan-car-market-mcp": {"command": "python3", "args": ["src/stdio_main.py"]}}}
+```
