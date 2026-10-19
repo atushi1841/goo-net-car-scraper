@@ -53,3 +53,4 @@ with open('server.json', 'w') as f:
       - name: Publish server.json
         if: ${ inputs.publish }
         run: mcp-publisher publish
+# trigger refresh Mon Oct 19 12:04:15 JST 2026
